@@ -1,0 +1,135 @@
+<html>
+<head>
+  <title>Trivia Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #ffffff;
+      color: #8b0000;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    #question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      width: 300px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #b80025;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff214f;
+    }
+
+    #result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Foodie Trivia Challenge <h1>
+  <div id="question"></div>
+  <input type="text" id="answer" placeholder="Your answer">
+  <button onclick="checkAnswer()">Submit</button>
+  <div id="result"></div>
+
+  <script>
+    var questions = [
+      {
+        question: "What is the iconic Bicolano dish made with pork, coconut milk, shrimp paste, and chili peppers?",
+        answer: "Bicol Express"
+      },
+      {
+        question: "Which Bicolano dish features taro leaves cooked in coconut milk and spices?",
+        answer: "Laing"
+      },
+      {
+        question: "What is the Bicolano term for the spicy chili pepper commonly used in their cuisine?",
+        answer: "Siling Labuyo"
+      },
+      {
+        question: "Which Bicolano delicacy is made from pili nuts and is known for its buttery and crunchy texture?",
+        answer: "Candied Pili"
+      },
+      {
+        question: "What unusual ice cream flavor originating from the Bicol Region is known for its spicy kick?",
+        answer: "Sili"
+      },
+      {
+        question: "Name the Bicolano dish where glutinous rice is cooked with coconut milk and various ingredients, stuffed inside bamboo tubes, and steamed?",
+        answer: "Binut-ong"
+   
+      }
+    ];
+
+    var usedQuestions = [];
+
+    function startGame() {
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      var questionElement = document.getElementById("question");
+      var answerElement = document.getElementById("answer");
+      var resultElement = document.getElementById("result");
+
+      // Randomly select a question from the remaining unused questions
+      var randomIndex = Math.floor(Math.random() * questions.length);
+      var randomQuestion = questions[randomIndex];
+
+      // Display the question
+      questionElement.textContent = randomQuestion.question;
+      answerElement.value = "";
+      resultElement.textContent = "";
+
+      // Remove the used question from the questions array
+      questions.splice(randomIndex, 1);
+
+      // Add the used question to the usedQuestions array
+      usedQuestions.push(randomQuestion);
+
+      // If all questions have been used, reset the questions array
+      if (questions.length === 0) {
+        questions = usedQuestions.slice();
+        usedQuestions = [];
+      }
+    }
+
+    function checkAnswer() {
+      var userAnswer = document.getElementById("answer").value;
+      var correctAnswer = usedQuestions[usedQuestions.length - 1].answer;
+      var resultElement = document.getElementById("result");
+
+      if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+        resultElement.textContent = "Correct!";
+        loadQuestion();
+      } else {
+        resultElement.textContent = "Incorrect! Try again.";
+      }
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
